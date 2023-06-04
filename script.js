@@ -11,12 +11,13 @@ const operator = keys.querySelectorAll('[data-type="operator"]')
 const special = keys.querySelectorAll('[data-type="special"]')
 
 // Set data attributes on calculator
-const history = Array.from(calculator.dataset.history);
+const history = JSON.parse(calculator.dataset.history)
 const { storedValue } = calculator.dataset
 const { status } = calculator.dataset
 const { currentOperator } = calculator.dataset
 
-console.log(history)
+// Create a div element to store the history
+
 // Core functions
 
 function add (a, b) {
@@ -53,6 +54,10 @@ function updateDisplay (value) {
   } else {
     current.textContent += value
   }
+}
+
+function updateHistory (arr) {
+  calculator.dataset.history = JSON.stringify(arr)
 }
 
 function clearDisplay() {
@@ -100,7 +105,10 @@ special.forEach(button => {
       const b = current.textContent
       const operation = calculator.dataset.currentOperator
       const sum = operate(Number(a), Number(b), operation)
+      history.push(sum)
+      updateHistory(history)
       current.textContent = sum
+      stored.textContent = ''
     }
 
     if (keyValue === 'clr') {
