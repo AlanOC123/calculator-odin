@@ -1,0 +1,22 @@
+:root {
+    --body-bg-color: rgb(215, 215, 236);
+    --calc-color-dark: rgb(8, 16, 32);
+    --display-active-text: rgb(215, 215, 236);
+    --display-history-text: rgb(215, 215, 236, 0.8);
+    --operator-button-background: rgb(235, 65, 120);
+    --operator-text-color: rgb(223, 223, 248);
+    --digit-button-background: rgb(185, 185, 213);
+}
+
+html,
+html::before,
+html::after {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    height: 100vh;
+    background-color: var(--body-bg-color);
+}

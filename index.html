@@ -5,36 +5,39 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="style.css">
+    <script src="https://kit.fontawesome.com/d9deb4df99.js" crossorigin="anonymous"></script>
     <script src="script.js" defer></script>
     <title>Calculator Version 2</title>
 </head>
 <body>
     <div class="calculator" data-history = "[]">
         <div class="display">
+            <div class="history"></div>
             <p class="stored"></p>
             <p class="current"></p>
         </div>
 
         <div class="calculator-keys">
-            <button data-type="operator" data-key="add">+</button>
-            <button data-type="operator" data-key="min">-</button>
-            <button data-type="operator" data-key="mul">*</button>
-            <button data-type="operator" data-key="div">/</button>
+            <button data-type="operator" data-key="add"><i class="fa-solid fa-plus" style="color: rgb(223, 223, 248);"></i></button>
+            <button data-type="operator" data-key="min"><i class="fa-solid fa-minus" style="color: rgb(223, 223, 248);"></i></button>
+            <button data-type="operator" data-key="mul"><i class="fa-solid fa-xmark" style="color: rgb(223, 223, 248);"></i></button>
+            <button data-type="operator" data-key="div"><i class="fa-solid fa-divide" style="color: rgb(223, 223, 248);"></i></button>
 
-            <button data-type="special" data-key="clr">C</button>
-            <button data-type="special" data-key="dec">.</button>
-            <button data-type="special" data-key="eql">=</button>
+            <button data-type="special" data-key="clr"><i class="fa-sharp fa-solid fa-trash" style="color: rgb(223, 223, 248);"></i></button>
+            <button data-type="special" data-key="dec"><i class="fa-solid fa-circle" style="color: rgb(223, 223, 248);"></i></button>
+            <button data-type="special" data-key="eql"><i class="fa-solid fa-equals" style="color: rgb(223, 223, 248);"></i></button>
+            <button data-type="special" data-key="del"><i class="fa-solid fa-delete-left" style="color: rgb(223, 223, 248);"></i></button>
 
-            <button data-type="number" data-key="0">0</button>
-            <button data-type="number" data-key="1">1</button>
-            <button data-type="number" data-key="2">2</button>
-            <button data-type="number" data-key="3">3</button>
-            <button data-type="number" data-key="4">4</button>
-            <button data-type="number" data-key="5">5</button>
-            <button data-type="number" data-key="6">6</button>
-            <button data-type="number" data-key="7">7</button>
-            <button data-type="number" data-key="8">8</button>
-            <button data-type="number" data-key="9">9</button>
+            <button data-type="number" data-key="0"><i class="fa-solid fa-0"></i></button>
+            <button data-type="number" data-key="1"><i class="fa-solid fa-1"></i></button>
+            <button data-type="number" data-key="2"><i class="fa-solid fa-2"></i></button>
+            <button data-type="number" data-key="3"><i class="fa-solid fa-3"></i></button>
+            <button data-type="number" data-key="4"><i class="fa-solid fa-4"></i></button>
+            <button data-type="number" data-key="5"><i class="fa-solid fa-5"></i></button>
+            <button data-type="number" data-key="6"><i class="fa-solid fa-6"></i></button>
+            <button data-type="number" data-key="7"><i class="fa-solid fa-7"></i></button>
+            <button data-type="number" data-key="8"><i class="fa-solid fa-8"></i></button>
+            <button data-type="number" data-key="9"><i class="fa-solid fa-9"></i></button>
         </div>
     </div>
 </body>
