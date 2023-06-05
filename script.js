@@ -47,6 +47,27 @@ function operate (a, b, operator) {
   return operation[operator]
 }
 
+function captureValue (keyValue) {
+  calculator.dataset.storedValue = current.textContent
+  calculator.dataset.currentOperator = keyValue
+  current.textContent = '0'
+  stored.textContent = calculator.dataset.storedValue
+  calculator.dataset.isCleared = 'false'
+  calculator.dataset.isDecimal = 'false'
+}
+
+function sumCurrent () {
+  const a = calculator.dataset.storedValue
+  const b = current.textContent
+  const operation = calculator.dataset.currentOperator
+  const sum = operate(Number(a), Number(b), operation)
+  current.textContent = sum
+  stored.textContent = ''
+  calculator.dataset.isDecimal = false
+
+  return sum
+}
+
 // Create a div element to store the history
 function createHistoryDisplay () {
   const historyDisplay = document.createElement('p')
@@ -55,7 +76,6 @@ function createHistoryDisplay () {
   historyDisplay.setAttribute('id', length)
   historyDisplay.textContent = history[length - 1]
   historyContainer.appendChild(historyDisplay)
-  console.log(historyContainer.childNodes)
 }
 
 // Display Update Functions
@@ -72,6 +92,14 @@ function updateHistory (value) {
   history.push(value)
   history = JSON.stringify(history)
   calculator.dataset.history = history
+}
+
+function backspace () {
+  const length = current.textContent.length
+  const char = current.textContent.substring(length - 1)
+  if (char === '.') calculator.dataset.isDecimal = false
+  current.textContent = current.textContent.replace(char, '')
+  if (length === 1) current.textContent = '0'
 }
 
 function deleteHistory () {
@@ -106,7 +134,6 @@ numbers.forEach(button => {
 
     const key = e.target
     const keyValue = key.closest('button').dataset.key
-    console.log(keyValue)
 
     // Adds numbers to the display
     updateDisplay(keyValue)
@@ -127,13 +154,8 @@ operator.forEach(button => {
     })
 
     // Captures the display and operator, resets current display, sets operator button to selected
-    calculator.dataset.storedValue = current.textContent
-    calculator.dataset.currentOperator = keyValue
-    current.textContent = '0'
-    stored.textContent = calculator.dataset.storedValue
+    captureValue(keyValue)
     key.dataset.status = 'selected'
-    calculator.dataset.isCleared = 'false'
-    calculator.dataset.isDecimal = 'false'
   })
 })
 
@@ -144,17 +166,10 @@ special.forEach(button => {
 
     const key = e.target
     const keyValue = key.closest('button').dataset.key
-    console.log(keyValue)
 
     // If equals was pressed, get a from the stored value, b from the display and operate on them and store the value in the display and history
     if (keyValue === 'eql') {
-      const a = calculator.dataset.storedValue
-      const b = current.textContent
-      const operation = calculator.dataset.currentOperator
-      const sum = operate(Number(a), Number(b), operation)
-      current.textContent = sum
-      stored.textContent = ''
-      calculator.dataset.isDecimal = false
+      const sum = sumCurrent()
       updateHistory(sum)
       createHistoryDisplay()
     }
@@ -172,10 +187,87 @@ special.forEach(button => {
     }
 
     if (keyValue === 'del') {
-      const length = current.textContent.length
-      const char = current.textContent.substring(length - 1)
-      if (char === '.') calculator.dataset.isDecimal = false
-      current.textContent = current.textContent.replace(char, '')
+      backspace()
     }
   })
+})
+
+// Keyboard Listeners
+window.addEventListener('keydown', (e) => {
+  e.preventDefault()
+  const keyNumbers = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9']
+  const keyOperators = ['+', '-', '*', 'x', '/']
+  const keySpecial = ['=', 'Enter', 'Backspace', 'Delete', 'c', 'C', '.']
+
+  const keyValue = e.key
+  let keyType
+
+  if (keyNumbers.includes(keyValue)) {
+    keyType = 'number'
+  } else if (keyOperators.includes(keyValue)) {
+    keyType = 'operator'
+  } else if (keySpecial.includes(keyValue)) {
+    keyType = 'special'
+  } else {
+    return
+  }
+
+  if (keyType === 'number') {
+    updateDisplay(keyValue)
+  }
+
+  if (keyType === 'operator') {
+    const map = {
+      '+': 'add',
+      '-': 'sub',
+      'x': 'mul',
+      '*': 'mul',
+      '/': 'div'
+    }
+
+    mappedKey = map[keyValue]
+
+    captureValue(mappedKey)
+    const key = keys.querySelector(`[data-key="${map[keyValue]}"`)
+    key.dataset.status = 'selected'
+  }
+
+  if (keyType === 'special') {
+    const map = {
+      '.': 'dec',
+      'Backspace': 'del',
+      'Delete': 'del',
+      'c': 'clr',
+      'C': 'clr',
+      'Enter': 'eql',
+      '=': 'eql'
+    }
+
+    const mappedKey = map[keyValue]
+
+    if (mappedKey === 'eql') {
+      const sum = sumCurrent()
+      updateHistory(sum)
+      createHistoryDisplay()
+    }
+
+    if (mappedKey === 'clr') {
+      clearDisplay(calculator.dataset.isCleared)
+    }
+
+    if (mappedKey === 'dec') {
+      if (calculator.dataset.isDecimal === 'true') {
+        return
+      }
+
+      current.textContent += '.'
+      calculator.dataset.isDecimal = 'true'
+    }
+
+    if (mappedKey === 'del') {
+      backspace()
+    }
+
+    console.log(mappedKey)
+  }
 })
