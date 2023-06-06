@@ -68,16 +68,6 @@ function sumCurrent () {
   return sum
 }
 
-// Create a div element to store the history
-function createHistoryDisplay () {
-  const historyDisplay = document.createElement('p')
-  const history = JSON.parse(calculator.dataset.history)
-  const length = history.length
-  historyDisplay.setAttribute('id', length)
-  historyDisplay.textContent = history[length - 1]
-  historyContainer.appendChild(historyDisplay)
-}
-
 // Display Update Functions
 function updateDisplay (value) {
   if (current.textContent === '0') {
@@ -88,8 +78,29 @@ function updateDisplay (value) {
 }
 
 function updateHistory (value) {
+  if (!historyContainer.firstChild) {
+    console.log(true)
+    const historyDisplay = document.createElement('p')
+    historyDisplay.classList.add('history-display')
+    historyDisplay.textContent = ''
+    historyContainer.appendChild(historyDisplay)
+  }
+
+  const historyDisplay = historyContainer.querySelector('.history-display')
+
+  historyDisplay.textContent = ''
+
   let history = JSON.parse(calculator.dataset.history)
   history.push(value)
+
+  history.forEach(num => {
+    if (history.indexOf(num) > 2) {
+      return
+    }
+
+    historyDisplay.textContent += `${history.indexOf(num) + 1} : ${num} \; `
+  })
+
   history = JSON.stringify(history)
   calculator.dataset.history = history
 }
@@ -171,7 +182,6 @@ special.forEach(button => {
     if (keyValue === 'eql') {
       const sum = sumCurrent()
       updateHistory(sum)
-      createHistoryDisplay()
     }
 
     if (keyValue === 'clr') {
@@ -225,7 +235,7 @@ window.addEventListener('keydown', (e) => {
       '/': 'div'
     }
 
-    mappedKey = map[keyValue]
+    const mappedKey = map[keyValue]
 
     captureValue(mappedKey)
     const key = keys.querySelector(`[data-key="${map[keyValue]}"`)
@@ -248,7 +258,6 @@ window.addEventListener('keydown', (e) => {
     if (mappedKey === 'eql') {
       const sum = sumCurrent()
       updateHistory(sum)
-      createHistoryDisplay()
     }
 
     if (mappedKey === 'clr') {

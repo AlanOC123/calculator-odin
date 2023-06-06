@@ -1,22 +1,242 @@
 :root {
     --body-bg-color: rgb(215, 215, 236);
-    --calc-color-dark: rgb(8, 16, 32);
+    --calc-color-dark: rgb(8, 38, 75);
     --display-active-text: rgb(215, 215, 236);
     --display-history-text: rgb(215, 215, 236, 0.8);
-    --operator-button-background: rgb(235, 65, 120);
+    --operator-button-background: rgb(255, 52, 23);
     --operator-text-color: rgb(223, 223, 248);
     --digit-button-background: rgb(185, 185, 213);
+    --digit-button-text-color: rgb(16, 64, 85);
+    --equals-button-background: rgb(16,190,255);
+    --clr-button-background: rgb(234,205,55);
+}
+
+* {
+    /*border: 0.1rem solid red;*/
+    margin: 0;
 }
 
 html,
-html::before,
-html::after {
+body {
     margin: 0;
-    padding: 0;
     box-sizing: border-box;
+    height: 100%;
+    width: 100%;
+    font-size: 0.625rem;
 }
 
 body {
-    height: 100vh;
     background-color: var(--body-bg-color);
+}
+
+button {
+    border-radius: 100vw;
+    border: none;
+    box-shadow: 0.7rem 0.5rem 1rem;
+}
+
+.container {
+    height: 100%;
+    min-height: 100vh;
+    width: 100vw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow-x: hidden;
+    overflow-y: hidden;
+}
+
+.calculator {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 75vh;
+    aspect-ratio: 9/16;
+    width: auto;
+    min-width: none;
+    max-width: 33vw;
+    background-color: var(--calc-color-dark);
+
+    padding: 4rem;
+    border-radius: 3rem;
+    box-shadow: inset 1rem;
+}
+
+.display {
+    flex: 2;
+
+    font-size: 3rem;
+    color: var(--display-active-text);
+    border-bottom: 0.1rem solid var(--display-history-text);
+    width: 100%;
+    height: 70%;
+    margin-bottom: 3rem;
+
+    display: flex;
+    gap: 1rem;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 0 1rem;
+}
+
+.current,
+.stored,
+.history {
+    width: 100%;
+    flex: 1;
+    text-align: end;
+}
+
+.history {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    border-bottom: 0.1rem dotted var(--display-history-text);
+    overflow-x: hidden;
+    overflow-y: hidden;
+}
+
+.current {
+    font-size: 6rem;
+    margin-bottom: 1rem;
+    color: var(--display-active-text);
+}
+
+.stored {
+    font-size: 3rem;
+    color: var(--display-history-text);
+    
+}
+
+.calculator-keys {
+    align-self: flex-end;
+    min-height: 66%;
+    width: 100%;
+    flex: 3;
+    display: flex;
+    justify-content: space-around;
+    align-items: flex-start;
+    gap: 1.5rem;
+}
+
+.left-middle-keys {
+    height: 100%;
+    width: auto;
+    flex: 3;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    align-items: stretch;
+    margin-right: 1rem;
+    gap: 1.8rem;
+}
+
+.top-row,
+.second-row,
+.third-row,
+.fourth-row,
+.bottom-row {
+    flex: 1;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: space-evenly;
+    gap: 1.5rem;
+}
+
+.top-row button,
+.second-row button,
+.third-row button,
+.fourth-row button,
+.bottom-row button {
+    flex: 1;
+}
+
+.top-row button{
+    background-color: var(--operator-button-background);
+}
+
+.right-row {
+    height: 100%;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    align-items: stretch;
+
+    gap: 2rem;
+}
+
+[data-key="eql"]{
+    flex: 2;
+    background-color: var(--equals-button-background);
+    border: 0.05rem solid var(--calc-color-dark);
+}
+
+[data-key="mul"],
+[data-key="sub"],
+[data-key="add"] {
+    flex: 1;
+    background-color: var(--operator-button-background);
+}
+
+[data-type="number"] {
+    border: 0.05rem solid var(--calc-color-dark);
+}
+
+[data-type="operator"] {
+    border: 0.05rem solid var(--display-history-text);
+}
+
+[data-key="clr"] {
+    background-color: var(--clr-button-background);
+    border: 0.05rem solid var(--display-history-text);
+}
+
+[data-key="del"] {
+    border: 0.05rem solid var(--display-history-text);
+}
+
+.fa-solid {
+    scale: 1.5;
+}
+
+.fa-circle {
+    scale: 0.5;
+}
+
+.fa-equals {
+    scale: 2.2;
+    color: var(--digit-button-background);
+}
+
+.fa-delete-left {
+    scale: 2;
+}
+
+.fa-divide {
+    scale: 1.8;
+}
+
+.fa-xmark,
+.fa-minus,
+.fa-plus,
+.fa-divide,
+.fa-delete-left {
+    color: var(--operator-text-color);
+}
+
+.fa-0,
+.fa-1,
+.fa-2,
+.fa-3,
+.fa-4,
+.fa-5,
+.fa-6,
+.fa-7,
+.fa-8,
+.fa-9 {
+    color: var(--digit-button-text-color);
 }
